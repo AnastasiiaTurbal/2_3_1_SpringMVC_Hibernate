@@ -12,7 +12,6 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Transactional
 @Component
 public class UserDaoImpl implements UserDao {
 
@@ -27,17 +26,20 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User showUser(long id) {
-        return entityManager.createQuery("select user from User user where user.id=:id", User.class)
-                .setParameter("id", id).getSingleResult();
+        return entityManager.find(User.class, id);
     }
+
+    @Transactional
     @Override
     public void addUser(User user) {
         entityManager.persist(user);
     }
 
+    @Transactional
     @Override
     public void updateUser(User user) { entityManager.merge(user); }
 
+    @Transactional
     @Override
     public void deleteUser(Long id) {
         entityManager.createQuery("DELETE User where id=:id").setParameter("id", id).executeUpdate();

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 @RequestMapping("/users")
 @Controller
@@ -42,12 +43,14 @@ public class UsersController {
     }
 
     @PatchMapping("/{id}/edit")
-    public String updateUser(@ModelAttribute("user") User user) {
+    public RedirectView updateUser(@ModelAttribute("user") User user) {
+    //public String updateUser(@ModelAttribute("user") User user) {
         userService.updateUser(user);
-        return "redirect:/users";
+        return new RedirectView("/users");
+        //return "redirect:/users";
     }
 
-    @DeleteMapping("/{id}/delete")
+    @DeleteMapping ("/{id}/delete")
     public String deleteUser(@ModelAttribute("user") User user) {
         userService.deleteUser(user.getId());
         return "redirect:/users";
